@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http; // httpという変数を通して、httpパッケージにアクセス
 
 import 'package:qiita_search/models/article.dart';
-import 'package:qiita_search/models/user.dart';
 import 'package:qiita_search/widgets/article_container.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -26,17 +25,18 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           // 検索ボックス
           Padding(
-            // ← Paddingで囲む
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 36),
-            child: TextField(
-              style: TextStyle(fontSize: 18, color: Colors.black),
-              decoration: InputDecoration(hintText: '検索ワードを入力してください'),
-              onSubmitted: (String inputText) async {
-                final results = await searchQiita(inputText);
-                setState(() {
-                  articles = results;
-                });
-              },
+            child: Form(
+              child: TextFormField(
+                style: TextStyle(fontSize: 18, color: Colors.black),
+                decoration: InputDecoration(hintText: '検索ワードを入力してください'),
+                onFieldSubmitted: (String inputText) async {
+                  final results = await searchQiita(inputText);
+                  setState(() {
+                    articles = results;
+                  });
+                },
+              ),
             ),
           ),
 
